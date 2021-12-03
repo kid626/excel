@@ -20,11 +20,11 @@ public interface TestService {
      *
      * @param file     文件
      * @param response HttpServletResponse
-     * @return
+     * @return List<Test>
      */
-    String batchSave(MultipartFile file, HttpServletResponse response) throws Exception;
+    List<Test> batchSave(MultipartFile file, HttpServletResponse response) throws Exception;
 
 
-    void save(List<Test> data) throws Exception;
+    void save(List<Test> data);
 
 }

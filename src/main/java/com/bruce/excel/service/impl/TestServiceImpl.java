@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,31 +23,24 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TestServiceImpl implements TestService {
 
-    private List<Test> list = new ArrayList<>();
-
     @Override
-    public String batchSave(MultipartFile file, HttpServletResponse response) throws Exception {
+    public List<Test> batchSave(MultipartFile file, HttpServletResponse response) throws Exception {
         // 用来接收表内所有数据
-        List<Test> result = new ArrayList<>();
-        EasyExcelUtil.simpleRead(file, Test.class, new TestListener(result), 9, 0);
-        log.info("result.size:{}", result.size());
-        save(result);
-        return "";
+        TestListener listener = new TestListener(this);
+        EasyExcelUtil.simpleRead(file, Test.class, listener, 1, 0);
+        List<Test> errorList = listener.getErrorList();
+        log.info("errorList.size:{}", errorList.size());
+        return errorList;
     }
 
     @Override
-    public void save(List<Test> data) throws Exception {
-        List<String> names = list.stream().map(test -> {
-            return test.getName();
-        }).collect(Collectors.toList());
-        for (Test test : data) {
-            if (names.contains(test.getName())) {
-                log.info("姓名已存在!");
-                throw new Exception("姓名已存在!");
-            }
-            list.add(test);
-            names.add(test.getName());
+    public void save(List<Test> data) {
+        List<String> names = data.stream().map(Test::getName).collect(Collectors.toList());
+        if (names.size() != data.size()) {
+            log.info("姓名重复!");
+            throw new RuntimeException("姓名重复!");
         }
+        log.info("data.size:{}", data.size());
     }
 
 

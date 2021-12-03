@@ -1,5 +1,6 @@
 package com.bruce.excel.controller;
 
+import com.bruce.excel.entity.Test;
 import com.bruce.excel.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @Copyright Copyright © 2021 fanzh . All rights reserved.
@@ -43,10 +45,10 @@ public class TestController {
             return "文件格式错误";
         }
         try {
-            testService.batchSave(file, response);
+            List<Test> list = testService.batchSave(file, response);
+            return list.toString();
         } catch (Exception e) {
             return e.getMessage();
         }
-        return "success";
     }
 }
