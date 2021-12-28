@@ -49,4 +49,26 @@ public class TestController {
         }
         return "success";
     }
+
+    @PostMapping("/v2/sql")
+    public String sql(String prefix, MultipartFile file, HttpServletResponse response) {
+        if (file.isEmpty()) {
+            log.info("文件为空");
+            return "文件不能为空";
+        }
+        String originalFilename = file.getOriginalFilename();
+        if (StringUtils.isBlank(originalFilename)) {
+            log.info("文件名为空");
+            return "文件名不能为空";
+        }
+        if (!(originalFilename.endsWith("xlsx") || originalFilename.endsWith("xls"))) {
+            log.info("文件格式错误:{}", originalFilename);
+            return "文件格式错误";
+        }
+        try {
+            return testService.generateSql(prefix,file, response);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }
