@@ -27,4 +27,9 @@ public interface TestService {
 
     void save(List<Test> data);
 
+    /**
+     * 生成 sql 语句
+     */
+    String generateSql(String prefix, MultipartFile file, HttpServletResponse response) throws Exception;
+
 }
