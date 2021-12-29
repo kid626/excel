@@ -18,6 +18,11 @@ import java.text.MessageFormat;
  */
 public class ChineseToFirstLetterUtil {
 
+    /**
+     * 获取拼音首字母
+     * @param str
+     * @return
+     */
     public static String chineseToFirstLetter(String str) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < str.length(); i++) {
@@ -30,6 +35,11 @@ public class ChineseToFirstLetterUtil {
         return sb.toString();
     }
 
+    /**
+     * 获取中文
+     * @param str
+     * @return
+     */
     public static String chineseLetter(String str) {
         String reg = "[^\u4e00-\u9fa5]";
         str = str.replaceAll(reg, "");

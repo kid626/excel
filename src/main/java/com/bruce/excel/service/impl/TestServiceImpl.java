@@ -86,7 +86,7 @@ public class TestServiceImpl implements TestService {
                     ChineseToFirstLetterUtil.chineseLetter(column)));
         }
         StringBuilder result = new StringBuilder();
-        result.append("# 初始化脚本 DDL:");
+        result.append("# 初始化脚本 DDL:\n");
         String ddl = MessageFormat.format(DDL, tableName, sb.toString(), prefix + "-" + originalFilename);
         result.append(ddl);
 
